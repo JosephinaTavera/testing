@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { createReservation } from "../utils/api";
-import { isNotOnTuesday } from "../utils/date-time";
-import { isInTheFuture } from "../utils/date-time";
+// import { isNotOnTuesday } from "../utils/date-time";
+// import { isInTheFuture } from "../utils/date-time";
 import ErrorAlert from "../layout/ErrorAlert";
 import Form from "./Form";
 
@@ -27,16 +27,16 @@ export default function Reservations() {
     });
   };
 
-  const findErrors = (date, errors) => {
-    isNotOnTuesday(date, errors);
-    isInTheFuture(date, errors);
-  };
+  // const findErrors = (date, errors) => {
+  //   isNotOnTuesday(date, errors);
+  //   isInTheFuture(date, errors);
+  // };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const controller = new AbortController();
     const errors = [];
-    findErrors(formData.reservation_date, errors);
+    // findErrors(formData.reservation_date, errors);
 
     if (errors.length) {
       setReservationsError({ message: errors });

@@ -49,7 +49,8 @@ export default function Form({
               name="mobile_number"
               className="form-control"
               id="mobile_number"
-              placeholder={initialformData?.mobile_number || "Mobile number"}
+              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              placeholder={initialformData?.mobile_number || "Mobile number ###-###-####"}
               value={initialformData?.mobile_number}
               onChange={handleFormChange}
               required
