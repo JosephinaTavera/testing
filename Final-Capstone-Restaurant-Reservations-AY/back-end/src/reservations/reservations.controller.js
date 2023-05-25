@@ -81,16 +81,64 @@ function isNotOnTuesday(req, res, next) {
   next();
 }
 
-function isInTheFuture(req, res, next) {
-  const date = res.locals.date;
-  const today = new Date();
+//jt
+const timeFormat = /\d\d:\d\d/;
 
-  if (date < today) {
-    return next({ status: 400, message: "Must be a future date" });
+function asDateString(date) {
+  return `${date.getFullYear().toString(10)}-${(date.getMonth() + 1)
+    .toString(10)
+    .padStart(2, "0")}-${date.getDate().toString(10).padStart(2, "0")}`;
+}
+
+function formatAsTime(timeString) {
+  return timeString.match(timeFormat)[0];
+}
+
+function rightNow() {
+  const now = new Date()
+  const currentTime = `${('00' + now.getHours()).slice(-2)}:${('00' + now.getMinutes()).slice(-2)}:${now.getSeconds()}`
+  return formatAsTime(currentTime)
+}
+
+function today() {
+  return asDateString(new Date());
+}
+
+function isInTheFuture(req, res, next){
+  const { data = {} } = req.body;
+  const date = data['reservation_date']
+  const time = data['reservation_time']
+
+  if (isNaN(Date.parse(data['reservation_date']))){
+      return next({ status: 400, message: `Invalid reservation_date` });
   }
-
+  if(date < today()) {
+    return next({status: 400, message: "Reservation must be set in the future"})
+  }
+  if(date === today() && time < rightNow()) {
+    return next({status: 400, message: "Reservation must be set in the future"})
+  }
   next();
 }
+
+
+// function isInTheFuture(req, res, next) {
+//   const date = res.locals.date;
+//   const today = new Date();
+
+//   if (date < today) {
+//     return next({ status: 400, message: "MUST be a future date" });
+//   }
+//   //jt
+//   let now = new Date(); // This gets the machine's local time, but it's displayed as UTC.
+//   let offset = now.getTimezoneOffset(); // This is the machine's timezone offset, in minutes.
+//   let localTime = now.getTime() + (offset * 60000); // Date() returns milliseconds, so multiply by 60000 to get it in minutes. Add because UTC time is ahead.
+  
+//   if( localTime <= now)
+//   {return next({ status: 400, message: "Must be a future date" }); }
+//   //end
+//   next();
+// }
 
 function isWithinOpenHours(req, res, next) {
   const reservation = req.body.data;
