@@ -81,7 +81,7 @@ function isNotOnTuesday(req, res, next) {
   next();
 }
 
-//jt
+
 const timeFormat = /\d\d:\d\d/;
 
 function asDateString(date) {
@@ -129,16 +129,7 @@ function isInTheFuture(req, res, next){
 //   if (date < today) {
 //     return next({ status: 400, message: "MUST be a future date" });
 //   }
-//   //jt
-//   let now = new Date(); // This gets the machine's local time, but it's displayed as UTC.
-//   let offset = now.getTimezoneOffset(); // This is the machine's timezone offset, in minutes.
-//   let localTime = now.getTime() + (offset * 60000); // Date() returns milliseconds, so multiply by 60000 to get it in minutes. Add because UTC time is ahead.
-  
-//   if( localTime <= now)
-//   {return next({ status: 400, message: "Must be a future date" }); }
-//   //end
-//   next();
-// }
+
 
 function isWithinOpenHours(req, res, next) {
   const reservation = req.body.data;
